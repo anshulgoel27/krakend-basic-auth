@@ -50,7 +50,7 @@ func New(hf krakendgin.HandlerFactory, l logging.Logger) krakendgin.HandlerFacto
 
 func middleware(f auth.AuthFunc, l logging.Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if f(c.Request) {
+		if !f(c.Request) {
 			l.Error(logPrefix, errBasicAuthRejected)
 			c.AbortWithStatus(http.StatusForbidden)
 			return
@@ -62,7 +62,7 @@ func middleware(f auth.AuthFunc, l logging.Logger) gin.HandlerFunc {
 
 func handler(f auth.AuthFunc, next gin.HandlerFunc, l logging.Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if f(c.Request) {
+		if !f(c.Request) {
 			l.Error(logPrefix, errBasicAuthRejected)
 			c.AbortWithStatus(http.StatusForbidden)
 			return
