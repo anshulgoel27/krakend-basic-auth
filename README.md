@@ -49,8 +49,8 @@ curl --user foo:bar http://localhost:8080/private/test
             ],
             "extra_config": {
                 "github.com/anshulgoel27/krakend-basic-auth": {
-                    "pass": "bar",
-                    "user": "foo"
+                    "pass": "fcde2b2edba56bf408601fb721fe9b5c338d10ee429ea04fae5511b68fbf8fb9",
+                    "user": "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae"
                 }
             }
         },
