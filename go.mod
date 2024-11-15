@@ -1,6 +1,6 @@
 module github.com/anshulgoel27/krakend-basic-auth
 
-go 1.22.7
+go 1.22
 
 require (
 	github.com/gin-gonic/gin v1.9.1
