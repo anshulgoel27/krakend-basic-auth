@@ -8,7 +8,7 @@ import (
 )
 
 // Namespace is the key to look for extra configuration details
-const Namespace = "github.com/anshulgoel27/krakend-basic-auth"
+const Namespace = "github_com/anshulgoel27/krakend-basic-auth"
 
 // Credentials contains the pair user:pass
 type Credentials struct {
