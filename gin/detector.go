@@ -14,21 +14,6 @@ import (
 
 const logPrefix = "[SERVICE: Gin][basic-auth]"
 
-// Register checks the configuration and, if required, registers a bot detector middleware at the gin engine
-func Register(cfg config.ServiceConfig, l logging.Logger, engine *gin.Engine) {
-	detectorCfg, err := auth.ParseConfig(cfg.ExtraConfig)
-	if err == auth.ErrNoConfig {
-		return
-	}
-	if err != nil {
-		l.Warning(logPrefix, err.Error())
-		return
-	}
-	d := auth.New(detectorCfg)
-	engine.Use(middleware(d, l))
-}
-
-// New checks the configuration and, if required, wraps the handler factory with a bot detector middleware
 func New(hf krakendgin.HandlerFactory, l logging.Logger) krakendgin.HandlerFactory {
 	return func(cfg *config.EndpointConfig, p proxy.Proxy) gin.HandlerFunc {
 		next := hf(cfg, p)
@@ -45,22 +30,6 @@ func New(hf krakendgin.HandlerFactory, l logging.Logger) krakendgin.HandlerFacto
 
 		d := auth.New(detectorCfg)
 		return handler(d, next, l)
-	}
-}
-
-func middleware(f auth.AuthFunc, l logging.Logger) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		valid, err := f(c.Request)
-		if !valid {
-			if err != nil {
-				l.Error(logPrefix, err)
-			}
-			l.Error(logPrefix, errBasicAuthRejected)
-			c.AbortWithStatus(http.StatusForbidden)
-			return
-		}
-
-		c.Next()
 	}
 }
 
